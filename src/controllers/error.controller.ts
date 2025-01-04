@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import AppError from "../utils/AppError";
+
+import { AppError } from "@src/utils";
 
 /**
  * Handles MongoDB CastErrors for invalid IDs or paths.
@@ -50,7 +51,7 @@ const sendErrorDev = (err: AppError, res: Response) => {
  * @param err - The error object
  * @param res - The response object
  */
-const sendErrorProd = (err: AppError, res: Response) => {
+export const sendErrorProd = (err: AppError, res: Response) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -65,7 +66,12 @@ const sendErrorProd = (err: AppError, res: Response) => {
   }
 };
 
-const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const globalErrorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   /*sets the statusCode and status properties of the error object to default values if they're not already set. 
   This ensures that every error has a status code and a status message. */
   err.statusCode = err.statusCode || 500;
@@ -77,10 +83,11 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
     let error = { ...err };
     if (err.name === "CastError") error = handleCastErrorDB(err);
     if (err.code === 11000) error = handleDuplicateFieldsDB(err);
-    if (err._message === "Validation failed") error = handleValidationErrorDB(err);
+    if (err._message === "Validation failed")
+      error = handleValidationErrorDB(err);
 
     sendErrorProd(error as AppError, res);
   }
 };
 
-export default globalErrorHandler;
+/// export default globalErrorHandler;

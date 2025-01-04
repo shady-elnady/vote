@@ -1,14 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
+import mongoSanitize from "express-mongo-sanitize";
+import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
-import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
-import cookieParser from "cookie-parser";
 import cors from "cors";
-import globalErrorHandler from "./controller/errorController";
-import AppError from "./utils/AppError";
-import { userRouter } from "./routes/userRouter";
-import { authRouter } from "./routes/authRouter";
+
+import { globalErrorHandler } from "@src/controllers";
+import { authRouter, userRouter } from "@src/routes";
+import { AppError } from "@src/utils";
 
 const app = express();
 

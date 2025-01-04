@@ -4,7 +4,7 @@ import { Query } from "mongoose";
 
 // This class provides utility methods for building and modifying Mongoose queries
 // based on query parameters received from the client.
-class APIFeatures<T> {
+export class APIFeatures<T> {
   public query: Query<T[], T>; // Mongoose query object for performing database operations
   private readonly queryString: Record<string, any>; // Object containing query parameters from the client
 
@@ -73,7 +73,7 @@ class APIFeatures<T> {
   }
 }
 
-export default APIFeatures;
+/// export default APIFeatures;
 /*Why find().find() Doesn't Execute Twice
 When you call .find() on an existing query object, Mongoose interprets this as adding additional conditions to the query. 
 It does not execute the first .find() call; instead, it merges the conditions into a single query. */

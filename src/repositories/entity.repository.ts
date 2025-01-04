@@ -1,8 +1,7 @@
 import { Model, Document } from "mongoose";
-import AppError from "../utils/AppError";
-import { catchError } from "../utils/catchError";
 import { Request, Response, NextFunction } from "express";
-import APIFeatures from "../utils/APIFeatures";
+
+import { AppError, catchError, APIFeatures } from "@src/utils";
 
 export const createEntitiy = <T extends Document>(Model: Model<T>) =>
   catchError(async (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +20,11 @@ export const getAllEntitiy = <T extends Document>(Model: Model<T>) =>
   catchError(async (req: Request, res: Response, next: NextFunction) => {
     console.log(req);
     // await User.find()
-    const docs = await new APIFeatures(Model.find(), req.query).paginate().filter().sort().limitFields().query;
+    const docs = await new APIFeatures(Model.find(), req.query)
+      .paginate()
+      .filter()
+      .sort()
+      .limitFields().query;
     res.status(200).json({ data: { docs } });
   });
 

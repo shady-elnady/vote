@@ -1,5 +1,5 @@
 //inherits all the properties and methods of Error
-class AppError extends Error {
+export class AppError extends Error {
   public statusCode: number;
   public status: string;
   public isOperational: boolean;
@@ -26,4 +26,4 @@ class AppError extends Error {
   }
 }
 
-export default AppError;
+/// export default AppError;
